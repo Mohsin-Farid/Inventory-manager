@@ -63,6 +63,7 @@ export interface InventoryItem {
   kwPv: string | null;
   ipRating: string | null;
   warranty: string | null;
+  purchaseCost: number;
   maxSellingPrice: number;
   minSellingPrice: number;
   quantity: number;
@@ -85,6 +86,8 @@ export interface Sale {
   quantitySold: number;
   sellingPricePerUnit: number;
   totalAmount: number;
+  purchaseCostAtSale: number;
+  profitAmount: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -127,6 +130,7 @@ export interface SalesAnalytics {
   totalRevenue: number;
   totalUnitsSold: number;
   totalTransactions: number;
+  totalProfit: number;
   dailySales: Array<{
     date: string;
     revenue: number;

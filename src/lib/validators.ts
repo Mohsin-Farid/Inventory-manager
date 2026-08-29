@@ -31,6 +31,7 @@ export const inventorySchema = z.object({
   kwPv: z.string().max(80).optional().or(z.literal('')),
   ipRating: z.string().max(80).optional().or(z.literal('')),
   warranty: z.string().max(80).optional().or(z.literal('')),
+  purchaseCost: z.coerce.number().min(0, 'Purchase cost cannot be negative.'),
   maxSellingPrice: z.coerce.number().positive('Enter a valid end user price.'),
   minSellingPrice: z.coerce.number().positive('Enter a valid installer price.'),
   quantity: z.coerce.number().int().min(0, 'Quantity cannot be negative.'),

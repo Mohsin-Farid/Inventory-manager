@@ -5,6 +5,7 @@ import { Search } from 'lucide-react';
 import { z } from 'zod';
 
 import { FieldHint, FormInput } from '@/components/shared/form-field';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -65,6 +66,23 @@ export function SaleFormDialog({
     () => inventoryItems.find((item) => item.id === selectedItemId) ?? null,
     [inventoryItems, selectedItemId],
   );
+
+  const quantitySold = useWatch({ control: form.control, name: 'quantitySold' });
+  const sellingPricePerUnit = useWatch({
+    control: form.control,
+    name: 'sellingPricePerUnit',
+  });
+
+  const projectedProfit = useMemo(() => {
+    if (!selectedItem) {
+      return null;
+    }
+
+    const quantity = Number(quantitySold) || 0;
+    const price = Number(sellingPricePerUnit) || 0;
+
+    return (price - selectedItem.purchaseCost) * quantity;
+  }, [selectedItem, quantitySold, sellingPricePerUnit]);
 
   const filteredInventoryItems = useMemo(() => {
     const query = productSearch.trim().toLowerCase();
@@ -183,13 +201,21 @@ export function SaleFormDialog({
           </div>
 
           {selectedItem ? (
-            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-muted-foreground">
-              {selectedItem.quantity} units available.
-              {' '}
-              Allowed price range:
-              {' '}
-              {formatCurrency(selectedItem.minSellingPrice)} -{' '}
-              {formatCurrency(selectedItem.maxSellingPrice)}
+            <div className="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm text-muted-foreground">
+              <p>
+                {selectedItem.quantity} units available.
+                {' '}
+                Allowed price range:
+                {' '}
+                {formatCurrency(selectedItem.minSellingPrice)} -{' '}
+                {formatCurrency(selectedItem.maxSellingPrice)}
+              </p>
+              <div className="flex items-center justify-between">
+                <span>Estimated profit</span>
+                <Badge variant={(projectedProfit ?? 0) < 0 ? 'destructive' : 'success'}>
+                  {formatCurrency(projectedProfit ?? 0)}
+                </Badge>
+              </div>
             </div>
           ) : null}
 

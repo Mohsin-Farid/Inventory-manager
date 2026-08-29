@@ -41,6 +41,7 @@ export function InventoryTable({ items, onDelete, onEdit, onMigrate }: Inventory
               </div>
             </TableHead>
             <TableHead>Quantity</TableHead>
+            <TableHead>Purchase cost</TableHead>
             <TableHead>Price range</TableHead>
             <TableHead>Updated by</TableHead>
             <TableHead>Last updated</TableHead>
@@ -66,6 +67,7 @@ export function InventoryTable({ items, onDelete, onEdit, onMigrate }: Inventory
                   ) : null}
                 </div>
               </TableCell>
+              <TableCell>{formatCurrency(item.purchaseCost)}</TableCell>
               <TableCell>
                 {formatCurrency(item.minSellingPrice)} – {formatCurrency(item.maxSellingPrice)}
               </TableCell>

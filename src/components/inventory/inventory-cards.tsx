@@ -60,6 +60,14 @@ export function InventoryCards({ items, onDelete, onEdit, onMigrate }: Inventory
                     {formatCurrency(item.minSellingPrice)} – {formatCurrency(item.maxSellingPrice)}
                   </p>
                 </div>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                    Purchase cost
+                  </p>
+                  <p className="mt-2 text-sm font-semibold text-slate-950">
+                    {formatCurrency(item.purchaseCost)}
+                  </p>
+                </div>
               </div>
               <div className="text-xs text-muted-foreground">
                 Last updated {formatRelativeTime(item.updatedAt)} by{' '}

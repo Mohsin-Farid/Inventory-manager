@@ -29,6 +29,7 @@ const defaultValues: InventoryValues = {
   kwPv: '',
   ipRating: '',
   warranty: '',
+  purchaseCost: 0,
   maxSellingPrice: 0,
   minSellingPrice: 0,
   quantity: 0,
@@ -108,6 +109,14 @@ export function InventoryFormDialog({
             name="warranty"
             placeholder="5 years"
             register={form.register}
+          />
+          <FormInput
+            error={form.formState.errors.purchaseCost}
+            label="Purchase cost"
+            name="purchaseCost"
+            placeholder="20"
+            register={form.register}
+            type="number"
           />
           <div className="grid gap-4 sm:grid-cols-2">
             <FormInput

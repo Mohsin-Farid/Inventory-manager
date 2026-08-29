@@ -153,7 +153,7 @@ export function ApproveQuotationDialog({
                       className={index % 2 === 0 ? 'bg-green-50/40' : 'bg-white'}
                     >
                       <td className="px-3 py-2.5 text-slate-500">{item.slNo}</td>
-                      <td className="px-3 py-2.5 leading-snug text-slate-700">
+                      <td className="whitespace-pre-line px-3 py-2.5 leading-snug text-slate-700">
                         {item.description}
                       </td>
                       <td className="px-3 py-2.5 text-center text-slate-700">

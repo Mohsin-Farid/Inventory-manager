@@ -272,6 +272,7 @@ export function QuotePDFTemplate({ quote, items }: Props) {
                     borderBottom: '1px solid #e5e7eb',
                     lineHeight: '1.6',
                     color: '#1f2937',
+                    whiteSpace: 'pre-line',
                   }}
                 >
                   {item.description}

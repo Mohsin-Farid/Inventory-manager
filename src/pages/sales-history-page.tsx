@@ -148,13 +148,14 @@ export default function SalesHistoryPage() {
     downloadCsv(
       `${company?.name ?? 'sales'}-history.csv`,
       [
-        ['Product', 'Customer', 'Quantity', 'Unit Price', 'Total', 'Seller', 'Timestamp'],
+        ['Product', 'Customer', 'Quantity', 'Unit Price', 'Total', 'Profit', 'Seller', 'Timestamp'],
         ...sales.map((sale) => [
           sale.product?.title ?? 'Unknown product',
           sale.customerName ?? '',
           sale.quantitySold.toString(),
           sale.sellingPricePerUnit.toString(),
           sale.totalAmount.toString(),
+          sale.profitAmount.toString(),
           sale.seller?.username ?? 'Unknown seller',
           sale.createdAt,
         ]),
@@ -227,6 +228,13 @@ export default function SalesHistoryPage() {
           icon={DollarSign}
           title="Avg. order value"
           value={formatCurrency(averageOrderValue)}
+        />
+        <MetricCard
+          accent="from-chart-5/15 via-white to-chart-5/5"
+          helper="Revenue minus purchase cost."
+          icon={DollarSign}
+          title="Profit"
+          value={formatCurrency(analytics.totalProfit)}
         />
       </div>
 
@@ -351,6 +359,7 @@ export default function SalesHistoryPage() {
                   <TableHead>Quantity</TableHead>
                   <TableHead>Unit price</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Profit</TableHead>
                   <TableHead>Seller</TableHead>
                   <TableHead>Timestamp</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -364,6 +373,13 @@ export default function SalesHistoryPage() {
                     <TableCell>{sale.quantitySold}</TableCell>
                     <TableCell>{formatCurrency(sale.sellingPricePerUnit)}</TableCell>
                     <TableCell>{formatCurrency(sale.totalAmount)}</TableCell>
+                    <TableCell
+                      className={
+                        sale.profitAmount < 0 ? 'text-destructive' : 'text-emerald-700'
+                      }
+                    >
+                      {formatCurrency(sale.profitAmount)}
+                    </TableCell>
                     <TableCell>{sale.seller?.username ?? 'Unknown seller'}</TableCell>
                     <TableCell>{formatDateTime(sale.createdAt)}</TableCell>
                     <TableCell className="text-right">

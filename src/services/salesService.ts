@@ -15,6 +15,8 @@ interface SaleRow {
   quantity_sold: number;
   selling_price_per_unit: number;
   total_amount: number;
+  purchase_cost_at_sale: number;
+  profit_amount: number;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
@@ -31,6 +33,8 @@ function mapSale(row: SaleRow): Sale {
     quantitySold: row.quantity_sold,
     sellingPricePerUnit: Number(row.selling_price_per_unit),
     totalAmount: Number(row.total_amount),
+    purchaseCostAtSale: Number(row.purchase_cost_at_sale),
+    profitAmount: Number(row.profit_amount),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     deletedAt: row.deleted_at,
@@ -42,7 +46,7 @@ async function listSales(companyId: string, filters?: SalesFilters) {
   let query = supabase
     .from('sales')
     .select(
-      'id, company_id, inventory_item_id, sold_by, customer_name, quantity_sold, selling_price_per_unit, total_amount, created_at, updated_at, deleted_at, deleted_by',
+      'id, company_id, inventory_item_id, sold_by, customer_name, quantity_sold, selling_price_per_unit, total_amount, purchase_cost_at_sale, profit_amount, created_at, updated_at, deleted_at, deleted_by',
     )
     .eq('company_id', companyId)
     .is('deleted_at', null)
@@ -129,6 +133,7 @@ async function deleteSale(saleId: string, userId: string) {
 function buildSalesAnalytics(sales: Sale[]): SalesAnalytics {
   const totalRevenue = sales.reduce((sum, sale) => sum + sale.totalAmount, 0);
   const totalUnitsSold = sales.reduce((sum, sale) => sum + sale.quantitySold, 0);
+  const totalProfit = sales.reduce((sum, sale) => sum + sale.profitAmount, 0);
 
   const dailySales = Object.entries(groupByDay(sales)).map(([date, entries]) => ({
     date: format(new Date(date), 'MMM d'),
@@ -158,6 +163,7 @@ function buildSalesAnalytics(sales: Sale[]): SalesAnalytics {
     totalRevenue,
     totalUnitsSold,
     totalTransactions: sales.length,
+    totalProfit,
     dailySales,
     bestSellingProducts: Object.values(productMap)
       .sort((left, right) => right.units - left.units)

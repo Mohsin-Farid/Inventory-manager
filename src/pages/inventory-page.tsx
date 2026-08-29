@@ -105,6 +105,7 @@ export default function InventoryPage() {
     kwPv?: string;
     ipRating?: string;
     warranty?: string;
+    purchaseCost: number;
     maxSellingPrice: number;
     minSellingPrice: number;
     quantity: number;
@@ -342,6 +343,7 @@ export default function InventoryPage() {
                 kwPv: editingItem.kwPv ?? '',
                 ipRating: editingItem.ipRating ?? '',
                 warranty: editingItem.warranty ?? '',
+                purchaseCost: editingItem.purchaseCost,
                 maxSellingPrice: editingItem.maxSellingPrice,
                 minSellingPrice: editingItem.minSellingPrice,
                 quantity: editingItem.quantity,
